@@ -14,12 +14,14 @@ class AuthController extends Controller
    {
     $data = $request->validated();
 
+    \DB::beginTransaction();
     try {
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
-
+        \DB::commit();
         return response()->api($user, 200, 'ok', 'Successfully register user');
     } catch (\Exception $e) {
+        \DB::rollback();
         return response()->api([], 400, 'error', 'Failed to register new user');
     }
    }
