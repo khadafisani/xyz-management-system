@@ -50,4 +50,9 @@ class AuthController extends Controller
     auth()->user()->token()->revoke();
     return response()->api([], 200, 'Successfully logged out');
    }
+
+   public function profile()
+   {
+    return response()->api(auth()->user(), 200, 'Successfully get profile');
+   }
 }

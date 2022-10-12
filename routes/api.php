@@ -20,5 +20,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
 
     Route::middleware(['auth:api'])->group(function () {
         Route::get('logout', 'AuthController@logout');
+        Route::get('profile', 'AuthController@profile');
     });
 });
