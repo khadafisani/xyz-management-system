@@ -22,5 +22,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
         Route::get('logout', 'AuthController@logout');
         Route::get('profile', 'AuthController@profile');
         Route::put('profile', 'AuthController@updateProfile');
+
+        Route::middleware(['is_admin'])->group(function () {
+            Route::resource('service-category', ServiceCategoryController::class);
+        });
     });
 });

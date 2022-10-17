@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateServiceCategoryRequest;
 
-class ServiceCategoruController extends Controller
+class ServiceCategoryController extends Controller
 {
     public function index()
     {
         $service = ServiceCategory::all();
-        return response()->api($service, 200, 'Sucessfully retrieve service categories');
+        return response()->api($service, 200, 'ok', 'Sucessfully retrieve service categories');
     }
 
-    public function store(Request $request)
+    public function store(CreateServiceCategoryRequest $request)
     {
         $data = $request->validated();
 
@@ -22,37 +23,37 @@ class ServiceCategoruController extends Controller
             $serviceCategory = ServiceCategory::create($data);
 
             \DB::commit();
-            return response()->api($serviceCategory, 200, 'Sucessfully store service category');
+            return response()->api($serviceCategory, 200, 'ok', 'Sucessfully store service category');
         } catch (\Exception $e) {
             \DB::rollback();
-            return response()->api([], 400, 'Failed to store service');
+            return response()->api([], 400, 'error', 'Failed to store service');
         }
     }
 
-    public function show(ServiceCategory $serviceCategory)
+    public function show(ServiceCategory $service_category)
     {
-        return response()->api($serviceCategory, 200, 'Sucessfully retrieve service category');
+        return response()->api($service_category, 200, 'ok', 'Sucessfully retrieve service category');
     }
 
-    public function update(Request $request, ServiceCategory $serviceCategory)
+    public function update(CreateServiceCategoryRequest $request, ServiceCategory $service_category)
     {
         $data = $request->validated();
 
         \DB::beginTransaction();
         try {
-            $serviceCategory->update($data);
+            $service_category->update($data);
 
             \DB::commit();
-            return response()->api($serviceCategory, 200, 'Sucessfully update service category');
+            return response()->api($service_category, 200, 'ok', 'Sucessfully update service category');
         } catch (\Exception $e) {
             \DB::rollback();
-            return response()->api([], 400, 'Failed to update service');
+            return response()->api([], 400, 'error', 'Failed to update service');
         }
     }
 
-    public function destroy(ServiceCategory $serviceCategory)
+    public function destroy(ServiceCategory $service_category)
     {
-        $serviceCategory->delete();
-        return response()->api([], 200, 'Sucessfully delete service category');
+        $service_category->delete();
+        return response()->api([], 200, 'ok', 'Sucessfully delete service category');
     }
 }

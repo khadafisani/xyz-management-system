@@ -40,21 +40,21 @@ class AuthController extends Controller
             'user' => auth()->user(),
             'access_token' => auth()->user()->createToken('authToken')->accessToken
         ];
-        return response()->api($data, 200, 'Successfully logged in');
+        return response()->api($data, 200, 'ok', 'Successfully logged in');
     }catch(\Exception $e) {
-        return response()->api([], 400, 'Failed to login');
+        return response()->api([], 400, 'error', 'Failed to login');
     }
    }
 
    public function logout()
    {
     auth()->user()->token()->revoke();
-    return response()->api([], 200, 'Successfully logged out');
+    return response()->api([], 200, 'ok', 'Successfully logged out');
    }
 
    public function profile()
    {
-    return response()->api(auth()->user(), 200, 'Successfully get profile');
+    return response()->api(auth()->user(), 200, 'ok', 'Successfully get profile');
    }
 
    public function updateProfile(UpdateProfileRequest $request)
@@ -66,10 +66,10 @@ class AuthController extends Controller
         $user = auth()->user();
         $user->update($data);
         \DB::commit();
-        return response()->api($user, 200, 'Successfully update profile');
+        return response()->api($user, 200, 'ok', 'Successfully update profile');
     }catch(\Exception $e) {
         \DB::rollback();
-        return response()->api([], 400, 'Failed to update profile');
+        return response()->api([], 400, 'error', 'Failed to update profile');
     }
    }
 }

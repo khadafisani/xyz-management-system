@@ -10,7 +10,7 @@ class ServiceController extends Controller
     public function index()
     {
         $service = Service::all();
-        return response()->api($service, 200, 'Sucessfully get service');
+        return response()->api($service, 200, 'ok', 'Sucessfully get service');
     }
 
     public function store(Request $request)
@@ -22,16 +22,16 @@ class ServiceController extends Controller
             $service = Service::create($data);
 
             \DB::commit();
-            return response()->api($service, 200, 'Sucessfully store service');
+            return response()->api($service, 200, 'ok', 'Sucessfully store service');
         } catch (\Exception $e) {
             \DB::rollback();
-            return response()->api([], 400, 'Failed to store service');
+            return response()->api([], 400, 'error', 'Failed to store service');
         }
     }
 
     public function show(Service $service)
     {
-        return response()->api($service, 200, 'Sucessfully get service');
+        return response()->api($service, 200, 'ok', 'Sucessfully get service');
     }
 
     public function update(Request $request, Service $service)
@@ -43,16 +43,16 @@ class ServiceController extends Controller
             $service->update($data);
 
             \DB::commit();
-            return response()->api($service, 200, 'Sucessfully update service');
+            return response()->api($service, 200, 'ok', 'Sucessfully update service');
         } catch (\Exception $e) {
             \DB::rollback();
-            return response()->api([], 400, 'Failed to update service');
+            return response()->api([], 400, 'error', 'Failed to update service');
         }
     }
 
     public function destroy(Service $service)
     {
         $service->delete();
-        return response()->api([], 200, 'Sucessfully delete service');
+        return response()->api([], 200, 'ok', 'Sucessfully delete service');
     }
 }
