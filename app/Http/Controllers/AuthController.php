@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,5 +55,21 @@ class AuthController extends Controller
    public function profile()
    {
     return response()->api(auth()->user(), 200, 'Successfully get profile');
+   }
+
+   public function updateProfile(UpdateProfileRequest $request)
+   {
+    $data = $request->validated();
+
+    \DB::beginTransaction();
+    try {
+        $user = auth()->user();
+        $user->update($data);
+        \DB::commit();
+        return response()->api($user, 200, 'Successfully update profile');
+    }catch(\Exception $e) {
+        \DB::rollback();
+        return response()->api([], 400, 'Failed to update profile');
+    }
    }
 }
