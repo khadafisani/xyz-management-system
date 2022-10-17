@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Requests\ServiceRequest;
 
 class ServiceController extends Controller
 {
     public function index()
     {
         $service = Service::all();
-        return response()->api($service, 200, 'ok', 'Sucessfully get service');
+        return response()->api($service, 200, 'ok', 'Sucessfully get services');
     }
 
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
         $data = $request->validated();
 
         \DB::beginTransaction();
         try {
+            $data['total'] = $data['amount'] + $data['installation_fee'];
             $service = Service::create($data);
 
             \DB::commit();
@@ -34,7 +36,7 @@ class ServiceController extends Controller
         return response()->api($service, 200, 'ok', 'Sucessfully get service');
     }
 
-    public function update(Request $request, Service $service)
+    public function update(ServiceRequest $request, Service $service)
     {
         $data = $request->validated();
 
