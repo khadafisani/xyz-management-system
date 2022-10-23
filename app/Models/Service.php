@@ -12,6 +12,8 @@ class Service extends Model
 
     protected $fillable = [
         'name',
+        'download_speed',
+        'upload_speed',
         'amount',
         'installation_fee',
         'total',
