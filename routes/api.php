@@ -23,6 +23,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
         Route::get('profile', 'AuthController@profile');
         Route::put('profile', 'AuthController@updateProfile');
 
+        Route::resource('feedbacks', FeedbackController::class);
+
         Route::middleware(['is_admin'])->group(function () {
             Route::resource('service-category', ServiceCategoryController::class);
             Route::resource('services', ServiceController::class);
