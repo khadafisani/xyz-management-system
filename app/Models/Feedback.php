@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Feedback extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryBuilder;
 
     protected $table = 'feedbacks';
 
@@ -16,5 +16,11 @@ class Feedback extends Model
         'description',
         'note',
         'file_path'
+    ];
+
+    protected $searchable = [
+        'note',
+        'is_responded',
+        'description',
     ];
 }

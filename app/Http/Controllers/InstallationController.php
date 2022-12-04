@@ -14,7 +14,7 @@ class InstallationController extends Controller
 {
     public function index()
     {
-        $installations = Installation::where('user_id', auth()->user()->id)->with(['service'])->get();
+        $installations = Installation::where('user_id', auth()->user()->id)->with(['service.service_category'])->search()->getResult();
         return response()->api($installations, 200, 'ok', 'Sucessfully get installations');
     }
 

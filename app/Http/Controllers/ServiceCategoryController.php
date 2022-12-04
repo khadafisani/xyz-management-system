@@ -10,7 +10,7 @@ class ServiceCategoryController extends Controller
 {
     public function index()
     {
-        $service = ServiceCategory::all();
+        $service = ServiceCategory::search()->getResult();
         return response()->api($service, 200, 'ok', 'Sucessfully retrieve service categories');
     }
 

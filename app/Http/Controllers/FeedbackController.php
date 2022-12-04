@@ -11,7 +11,7 @@ class FeedbackController extends Controller
 {
     public function index()
     {
-        $feedback = Feedback::all();
+        $feedback = Feedback::search()->getResult();
         return response()->api($feedback, 200, 'ok', 'Sucessfully get feedbacks');
     }
 

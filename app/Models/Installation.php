@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Installation extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryBuilder;
 
     protected $fillable = [
         'user_id',
@@ -19,6 +19,13 @@ class Installation extends Model
         'note',
         'file_path',
         'status',
+    ];
+
+    protected $searchable = [
+        'address',
+        'note',
+        'service-name',
+        'service-service_category-name'
     ];
 
     protected $casts = [

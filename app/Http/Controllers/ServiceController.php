@@ -10,7 +10,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $service = Service::all();
+        $service = Service::with(['service_category'])->search()->getResult();
         return response()->api($service, 200, 'ok', 'Sucessfully get services');
     }
 
@@ -24,7 +24,7 @@ class ServiceController extends Controller
             $service = Service::create($data);
 
             \DB::commit();
-            return response()->api($service, 200, 'ok', 'Sucessfully store service');
+            return response()->api($service->load('service_category'), 200, 'ok', 'Sucessfully store service');
         } catch (\Exception $e) {
             \DB::rollback();
             return response()->api([], 400, 'error', 'Failed to store service');
@@ -45,7 +45,7 @@ class ServiceController extends Controller
             $service->update($data);
 
             \DB::commit();
-            return response()->api($service, 200, 'ok', 'Sucessfully update service');
+            return response()->api($service->load('service_category'), 200, 'ok', 'Sucessfully update service');
         } catch (\Exception $e) {
             \DB::rollback();
             return response()->api([], 400, 'error', 'Failed to update service');
