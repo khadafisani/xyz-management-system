@@ -25,11 +25,17 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
 
         Route::resource('installations', InstallationController::class)->only(['index', 'store', 'show']);
 
-        Route::resource('feedbacks', FeedbackController::class);
+        Route::resource('feedbacks', FeedbackController::class)->only(['store', 'show', 'index']);
 
-        Route::middleware(['is_admin'])->group(function () {
+        Route::prefix('admin')->middleware(['is_admin'])->group(function () {
+            Route::resource('feedbacks', FeedbackController::class)->only(['update', 'destroy']);
             Route::resource('service-category', ServiceCategoryController::class);
             Route::resource('services', ServiceController::class);
+
+            Route::resource('installations', Admin\InstallationController::class)->only(['index', 'show']);
+            Route::get('installations/{installation}/proceed', 'Admin\InstallationController@proceed');
+            Route::get('installations/{installation}/finish', 'Admin\InstallationController@finish');
+            Route::get('installations/{installation}/reject', 'Admin\InstallationController@reject');
         });
     });
 });
