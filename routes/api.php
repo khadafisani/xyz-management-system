@@ -23,6 +23,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
         Route::get('profile', 'AuthController@profile');
         Route::put('profile', 'AuthController@updateProfile');
 
+        Route::resource('installations', InstallationController::class)->only(['index', 'store', 'show']);
+
         Route::resource('feedbacks', FeedbackController::class);
 
         Route::middleware(['is_admin'])->group(function () {

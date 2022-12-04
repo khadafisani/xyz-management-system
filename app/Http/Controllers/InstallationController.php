@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Installation;
 use App\Models\Service;
-use App\Enums\InstallationStatus;
+use App\Http\Enums\InstallationStatus;
 use App\Http\Requests\InstallationRequest;
 use Illuminate\Http\Request;
+use Storage;
 
 class InstallationController extends Controller
 {
@@ -22,9 +23,7 @@ class InstallationController extends Controller
         \DB::beginTransaction();
         try {
             if(isset($data['proof'])) {
-                $saveImage = Storage::disk('public')->put('installation_proof', $data['proof']);
-
-                $data['file_path'] = $saveImage;
+                $data['file_path'] = Storage::disk('public')->put('installation_proof', $data['proof']);
             }
 
             $installation = Installation::create([
@@ -35,7 +34,7 @@ class InstallationController extends Controller
             ]);
 
             \DB::commit();
-            return response()->api($installation, 200, 'ok', 'Sucessfully store installation');
+            return response()->api($installation->load('service'), 200, 'ok', 'Sucessfully store installation');
         } catch (\Exception $e) {
             \DB::rollback();
             return response()->api([], 400, 'error', 'Failed to store installation');
@@ -44,11 +43,6 @@ class InstallationController extends Controller
 
     public function show(Installation $installation)
     {
-        return response()->api($installation, 200, 'ok', 'Sucessfully get installation');
-    }
-
-    public function update(Request $request, Installation $installation)
-    {
-        //
+        return response()->api($installation->load('service'), 200, 'ok', 'Sucessfully get installation');
     }
 }

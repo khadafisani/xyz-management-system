@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\InstallationStatus;
+use App\Http\Enums\InstallationStatus;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Installation extends Model
 {
@@ -23,4 +24,9 @@ class Installation extends Model
     protected $casts = [
         'status' => InstallationStatus::class,
     ];
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

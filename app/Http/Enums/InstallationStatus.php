@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Enums;
+namespace App\Http\Enums;
 
 use Illuminate\Support\Facades\Lang;
 

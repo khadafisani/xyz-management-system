@@ -25,7 +25,7 @@ class InstallationRequest extends FormRequest
     {
         return [
             'note' => 'string',
-            'proof' => 'nullable|file',
+            'proof' => 'required|file|mimes:png,jpg,jpeg',
             'service_id' => 'required|exists:services,id',
             'address' => 'required|string'
         ];

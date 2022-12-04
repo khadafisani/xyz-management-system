@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\InstallationStatus;
+use App\Http\Enums\InstallationStatus;
 
 return new class extends Migration
 {
@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('installation', function (Blueprint $table) {
+        Schema::create('installations', function (Blueprint $table) {
             $table->id();
             $table->boolean('status')->default(InstallationStatus::SUBMITTED->value);
             $table->text('note')->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('installation');
+        Schema::dropIfExists('installations');
     }
 };
