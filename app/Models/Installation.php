@@ -29,4 +29,9 @@ class Installation extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

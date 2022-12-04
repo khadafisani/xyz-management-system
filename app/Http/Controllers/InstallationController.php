@@ -7,13 +7,14 @@ use App\Models\Service;
 use App\Http\Enums\InstallationStatus;
 use App\Http\Requests\InstallationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 
 class InstallationController extends Controller
 {
     public function index()
     {
-        $installations = Installation::all();
+        $installations = Installation::where('user_id', auth()->user()->id)->with(['service'])->get();
         return response()->api($installations, 200, 'ok', 'Sucessfully get installations');
     }
 
@@ -43,6 +44,9 @@ class InstallationController extends Controller
 
     public function show(Installation $installation)
     {
+        if($installation->user_id == auth()->user()->id) {
+            throw (new ModelNotFoundException())->setModel(Installation::class);
+        }
         return response()->api($installation->load('service'), 200, 'ok', 'Sucessfully get installation');
     }
 }
