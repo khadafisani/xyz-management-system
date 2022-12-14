@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Enums\InstallationStatus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Installation extends Model
 {
@@ -28,6 +29,10 @@ class Installation extends Model
         'service-service_category-name'
     ];
 
+    protected $appends = [
+        'status_name',
+    ];
+
     protected $casts = [
         'status' => InstallationStatus::class,
     ];
@@ -40,5 +45,14 @@ class Installation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function statusName(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+               return InstallationStatus::getString($this->status);
+            }
+        );
     }
 }
