@@ -27,6 +27,7 @@ class InstallationPaymentRequest extends FormRequest
             'note' => 'string',
             'amount' => 'required',
             'proof' => 'required|file|mimes:png,jpg,jpeg',
+            'date' => 'required|date',
         ];
     }
 }

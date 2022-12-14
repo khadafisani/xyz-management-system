@@ -20,6 +20,7 @@ class Installation extends Model
         'note',
         'file_path',
         'status',
+        'date',
     ];
 
     protected $searchable = [

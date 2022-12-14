@@ -29,6 +29,18 @@ class InstallationPaymentController extends Controller
             return response()->api([], 400, 'error', 'Installation not completed / finish');
         }
 
+        if($installation->date > $data['date']) {
+            return response()->api([], 400, 'error', 'cannot make payment, installation created at ' . $installation->date);
+        }
+
+        $month = date('m', strtotime($data['date']));
+        $year = date('Y', strtotime($data['date']));
+        $paymentExist = InstallationPayment::whereMonth('date', $month)->whereYear('date', $year)->where('status', InstallationPaymentStatus::PAID)->first();
+
+        if($paymentExist) {
+            return response()->api([], 400, 'error', 'Installation at ' . $month . '-' . $year . ' Already paid');
+        }
+
         if($data['amount'] != $installation->service->amount) {
             return response()->api([], 400, 'error', 'Incorrect payment amount, please recheck or contact admin');
         }

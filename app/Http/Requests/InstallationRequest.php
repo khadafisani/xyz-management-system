@@ -27,7 +27,8 @@ class InstallationRequest extends FormRequest
             'note' => 'string',
             'proof' => 'required|file|mimes:png,jpg,jpeg',
             'service_id' => 'required|exists:services,id',
-            'address' => 'required|string'
+            'address' => 'required|string',
+            'date' => 'required|date',
         ];
     }
 }

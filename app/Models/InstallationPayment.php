@@ -17,13 +17,14 @@ class InstallationPayment extends Model
         'note',
         'file_path',
         'status',
+        'date',
     ];
 
     protected $searchable = [
-        'address',
+        'status',
         'note',
-        'service-name',
-        'service-service_category-name'
+        'installation-name',
+        'date',
     ];
 
     protected $casts = [
