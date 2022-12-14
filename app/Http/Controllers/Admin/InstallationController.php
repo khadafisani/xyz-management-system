@@ -49,7 +49,7 @@ class InstallationController extends Controller
         if($installation->status !== InstallationStatus::PROCEED->value) {
             return response()->api([], 400, 'ok', 'Installation already finish or rejected');
         }
-        $installation->status = InstallationStatus::REJECT;
+        $installation->status = InstallationStatus::REJECTED;
         $installation->save();
         return response()->api($installation->load('service'), 200, 'ok', 'Installation in progress');
     }
