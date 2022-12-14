@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
 
         Route::resource('installations', InstallationController::class)->only(['index', 'store', 'show']);
         Route::resource('installation-payments', InstallationPaymentController::class)->only(['index', 'show']);
-        Route::post('installtion-payments/{installation}', 'InstallationPaymentController@store');
+        Route::post('installation-payments/{installation}', 'InstallationPaymentController@store');
 
         Route::resource('feedbacks', FeedbackController::class)->only(['store', 'show', 'index']);
 

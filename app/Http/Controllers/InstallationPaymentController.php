@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Installation;
 use App\Models\InstallationPayment;
 use App\Http\Enums\InstallationStatus;
 use App\Http\Enums\InstallationPaymentStatus;
@@ -24,11 +25,11 @@ class InstallationPaymentController extends Controller
     {
         $data = $request->validated();
 
-        if($installation->status !== InstallationStatus::FINISH->value) {
+        if($installation->status->value !== InstallationStatus::FINISH->value) {
             return response()->api([], 400, 'error', 'Installation not completed / finish');
         }
 
-        if($data['amount'] !== $installation->service->amount) {
+        if($data['amount'] != $installation->service->amount) {
             return response()->api([], 400, 'error', 'Incorrect payment amount, please recheck or contact admin');
         }
 

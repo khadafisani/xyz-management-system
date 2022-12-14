@@ -26,7 +26,7 @@ class InstallationPaymentController extends Controller
 
     public function paid(InstallationPayment $installation_payment)
     {
-        if($installation_payment->status !== InstallationPaymentStatus::SUBMITTED->value) {
+        if($installation_payment->status->value !== InstallationPaymentStatus::SUBMITTED->value) {
             return response()->api([], 400, 'ok', 'Installation already finish or rejected');
         }
         $installation_payment->status = InstallationPaymentStatus::PAID;
@@ -36,7 +36,7 @@ class InstallationPaymentController extends Controller
 
     public function reject(InstallationPayment $installation_payment)
     {
-        if($installation_payment->status !== InstallationPaymentStatus::SUBMITTED->value) {
+        if($installation_payment->status->value !== InstallationPaymentStatus::SUBMITTED->value) {
             return response()->api([], 400, 'ok', 'Installation already finish or rejected');
         }
         $installation_payment->status = InstallationPaymentStatus::REJECTED;

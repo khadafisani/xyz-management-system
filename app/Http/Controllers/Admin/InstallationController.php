@@ -26,7 +26,7 @@ class InstallationController extends Controller
 
     public function proceed(Installation $installation)
     {
-        if($installation->status !== InstallationStatus::SUBMITTED->value) {
+        if($installation->status->value !== InstallationStatus::SUBMITTED->value) {
             return response()->api([], 400, 'ok', 'Installation already proceed');
         }
         $installation->status = InstallationStatus::PROCEED;
@@ -36,17 +36,17 @@ class InstallationController extends Controller
 
     public function finish(Installation $installation)
     {
-        if($installation->status !== InstallationStatus::PROCEED->value) {
+        if($installation->status->value !== InstallationStatus::PROCEED->value) {
             return response()->api([], 400, 'ok', 'Installation already finish or rejected');
         }
         $installation->status = InstallationStatus::FINISH;
         $installation->save();
-        return response()->api($installation->load('service'), 200, 'ok', 'Installation in progress');
+        return response()->api($installation->load('service'), 200, 'ok', 'Installation in completed');
     }
 
     public function reject(Installation $installation)
     {
-        if($installation->status !== InstallationStatus::PROCEED->value) {
+        if($installation->status->value !== InstallationStatus::PROCEED->value) {
             return response()->api([], 400, 'ok', 'Installation already finish or rejected');
         }
         $installation->status = InstallationStatus::REJECTED;
