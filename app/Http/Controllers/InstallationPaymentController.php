@@ -45,11 +45,11 @@ class InstallationPaymentController extends Controller
         return response()->api($installationPayment, 200, 'ok', 'Successfully paid recurring payment');
     }
 
-    public function show(InstallationPayment $installationPayment)
+    public function show(InstallationPayment $installation_payment)
     {
-        if($installationPayment->installation->user_id == auth()->user()->id) {
+        if($installation_payment->installation->user_id == auth()->user()->id) {
             throw (new ModelNotFoundException())->setModel(Installation::class);
         }
-        return response()->api($installationPayment->load('installation.user'), 200, 'ok', 'Sucessfully get installation Payment');
+        return response()->api($installation_payment->load('installation.user'), 200, 'ok', 'Sucessfully get installation Payment');
     }
 }
