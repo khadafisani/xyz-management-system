@@ -6,6 +6,7 @@ use App\Models\Feedback;
 use Illuminate\Http\Request;
 use App\Http\Requests\FeedbackRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\FeedbackCreatedJob;
 
 class FeedbackController extends Controller
 {
@@ -28,6 +29,8 @@ class FeedbackController extends Controller
             }
 
             $feedback = Feedback::create($data);
+
+            dispatch(new FeedbackCreatedJob($mailJob));
 
             \DB::commit();
             return response()->api($feedback, 200, 'ok', 'Sucessfully store feedback');
