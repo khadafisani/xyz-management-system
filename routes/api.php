@@ -40,7 +40,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
             Route::get('installations/{installation}/reject', 'Admin\InstallationController@reject');
 
             Route::resource('installation-payments', Admin\InstallationPaymentController::class)->only(['index', 'show']);
-            Route::get('installation-payments/{installation_payment}/finish', 'Admin\InstallationPaymentController@finish');
+            Route::get('installation-payments/{installation_payment}/paid', 'Admin\InstallationPaymentController@paid');
             Route::get('installation-payments/{installation_payment}/reject', 'Admin\InstallationPaymentController@reject');
         });
     });

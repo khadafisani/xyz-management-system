@@ -15,8 +15,13 @@ class InstallationPaymentController extends Controller
 {
     public function index()
     {
-        $installationPayments = InstallationPayment::with(['installation.user'])->search()->getResult();
-        return response()->api($installationPayments, 200, 'ok', 'Sucessfully get installation payments');
+        $installationPayments = InstallationPayment::with(['installation.user'])->search();
+
+        $result = [
+            'count' => $installationPayments->count(),
+            'data' => $installationPayments->getResult(),
+        ];
+        return response()->api($result, 200, 'ok', 'Sucessfully retrieve installation payments');
     }
 
     public function show(InstallationPayment $installation_payment)
@@ -27,11 +32,11 @@ class InstallationPaymentController extends Controller
     public function paid(InstallationPayment $installation_payment)
     {
         if($installation_payment->status->value !== InstallationPaymentStatus::SUBMITTED->value) {
-            return response()->api([], 400, 'ok', 'Installation already finish or rejected');
+            return response()->api([], 400, 'ok', 'Installation already paid or rejected');
         }
         $installation_payment->status = InstallationPaymentStatus::PAID;
         $installation_payment->save();
-        return response()->api($installation_payment->load('installation.user'), 200, 'ok', 'Installation in progress');
+        return response()->api($installation_payment->load('installation.user'), 200, 'ok', 'Successfully paid installation payment');
     }
 
     public function reject(InstallationPayment $installation_payment)
@@ -41,6 +46,6 @@ class InstallationPaymentController extends Controller
         }
         $installation_payment->status = InstallationPaymentStatus::REJECTED;
         $installation_payment->save();
-        return response()->api($installation_payment->load('installation.user'), 200, 'ok', 'Installation in progress');
+        return response()->api($installation_payment->load('installation.user'), 200, 'ok', 'Successfully reject installation payment');
     }
 }

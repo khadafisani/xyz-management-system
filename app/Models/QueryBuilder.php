@@ -133,8 +133,8 @@ trait QueryBuilder
             }
         }
 
-        $item_per_page = request()->query('item_per_page') ?? 999999;
-        $current_page = request()->query('current_page') ?? 1;
+        $item_per_page = request()->query('limit') ?? 200;
+        $current_page = request()->query('page') ?? 1;
         $data = $data->skip($item_per_page * ($current_page - 1))->take($item_per_page);
 
         $data = $data->values();

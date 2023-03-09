@@ -15,7 +15,7 @@ class InstallationPaymentController extends Controller
 {
     public function index()
     {
-        $installations = InstallationPayment::with('installations.user')->whereHas('installations', function($query) {
+        $installations = InstallationPayment::with('installation.user')->whereHas('installation', function($query) {
            return $query->where('user_id', auth()->user()->id);
         })->search()->getResult();
         return response()->api($installations, 200, 'ok', 'Sucessfully get installations');
@@ -36,6 +36,7 @@ class InstallationPaymentController extends Controller
         $month = date('m', strtotime($data['date']));
         $year = date('Y', strtotime($data['date']));
         $paymentExist = InstallationPayment::whereMonth('date', $month)->whereYear('date', $year)->where('status', InstallationPaymentStatus::PAID)->first();
+        dd($paymentExist, $month, $year);
 
         if($paymentExist) {
             return response()->api([], 400, 'error', 'Installation at ' . $month . '-' . $year . ' Already paid');
