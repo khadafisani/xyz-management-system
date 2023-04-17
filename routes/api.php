@@ -29,10 +29,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers'], function
 
         Route::resource('feedbacks', FeedbackController::class)->only(['store', 'show', 'index']);
 
+        Route::resource('services', ServiceController::class)->only(['index', 'show']);
+        Route::resource('service-category', ServiceCategoryController::class)->only(['index', 'show']);
+
         Route::prefix('admin')->middleware(['is_admin'])->group(function () {
             Route::resource('feedbacks', FeedbackController::class)->only(['update', 'destroy']);
-            Route::resource('service-category', ServiceCategoryController::class);
-            Route::resource('services', ServiceController::class);
+            Route::resource('service-category', ServiceCategoryController::class)->only(['store', 'update', 'destroy']);
+            Route::resource('services', ServiceController::class)->only(['store', 'update', 'destroy']);
 
             Route::resource('installations', Admin\InstallationController::class)->only(['index', 'show']);
             Route::get('installations/{installation}/proceed', 'Admin\InstallationController@proceed');

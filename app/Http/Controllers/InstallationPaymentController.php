@@ -36,7 +36,6 @@ class InstallationPaymentController extends Controller
         $month = date('m', strtotime($data['date']));
         $year = date('Y', strtotime($data['date']));
         $paymentExist = InstallationPayment::whereMonth('date', $month)->whereYear('date', $year)->where('status', InstallationPaymentStatus::PAID)->first();
-        dd($paymentExist, $month, $year);
 
         if($paymentExist) {
             return response()->api([], 400, 'error', 'Installation at ' . $month . '-' . $year . ' Already paid');
