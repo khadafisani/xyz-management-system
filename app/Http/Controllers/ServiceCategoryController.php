@@ -10,8 +10,12 @@ class ServiceCategoryController extends Controller
 {
     public function index()
     {
-        $service = ServiceCategory::search()->getResult();
-        return response()->api($service, 200, 'ok', 'Sucessfully retrieve service categories');
+        $serviceCategory = ServiceCategory::search();
+        $result = [
+            'count' => $serviceCategory->count(),
+            'data' => $serviceCategory->getResult(),
+        ];
+        return response()->api($result, 200, 'ok', 'Sucessfully retrieve service categories');
     }
 
     public function store(CreateServiceCategoryRequest $request)

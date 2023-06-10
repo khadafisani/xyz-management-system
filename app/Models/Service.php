@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Service extends Model
 {
-    use HasFactory, QueryBuilder;
+    use HasFactory, QueryBuilder, SoftDeletes;
 
     protected $fillable = [
         'name',

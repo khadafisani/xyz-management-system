@@ -13,7 +13,11 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedback = Feedback::search()->getResult();
-        return response()->api($feedback, 200, 'ok', 'Sucessfully get feedbacks');
+        $result = [
+            'count' => $feedback->count(),
+            'data' => $feedback->getResult(),
+        ];
+        return response()->api($result, 200, 'ok', 'Sucessfully get feedbacks');
     }
 
     public function store(FeedbackRequest $request)

@@ -15,8 +15,12 @@ class InstallationController extends Controller
 {
     public function index()
     {
-        $installations = Installation::with(['service.service_category'])->search()->getResult();
-        return response()->api($installations, 200, 'ok', 'Sucessfully get installations');
+        $installations = Installation::with(['service.service_category'])->search();
+        $result = [
+            'count' => $installations->count(),
+            'data' => $installations->getResult(),
+        ];
+        return response()->api($result, 200, 'ok', 'Sucessfully get installations');
     }
 
     public function show(Installation $installation)

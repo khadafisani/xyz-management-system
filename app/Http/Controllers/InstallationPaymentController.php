@@ -15,10 +15,16 @@ class InstallationPaymentController extends Controller
 {
     public function index()
     {
-        $installations = InstallationPayment::with('installation.user')->whereHas('installation', function($query) {
+        $installationPayments = InstallationPayment::with('installation.user')->whereHas('installation', function($query) {
            return $query->where('user_id', auth()->user()->id);
-        })->search()->getResult();
-        return response()->api($installations, 200, 'ok', 'Sucessfully get installations');
+        })->search();
+
+        $result = [
+            'count' => $installationPayments->count(),
+            'data' => $installationPayments->getResult(),
+        ];
+
+        return response()->api($result, 200, 'ok', 'Sucessfully get installations');
     }
 
     public function store(InstallationPaymentRequest $request, Installation $installation)

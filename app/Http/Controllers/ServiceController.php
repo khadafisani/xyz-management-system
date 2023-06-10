@@ -10,8 +10,13 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $service = Service::with(['service_category'])->search()->getResult();
-        return response()->api($service, 200, 'ok', 'Sucessfully get services');
+        $service = Service::with(['service_category'])->search();
+        $result = [
+            'count' => $service->count(),
+            'data' => $service->getResult(),
+        ];
+
+        return response()->api($result, 200, 'ok', 'Sucessfully get services');
     }
 
     public function store(ServiceRequest $request)
