@@ -7,7 +7,9 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class AuthController extends Controller
 {
@@ -54,7 +56,7 @@ class AuthController extends Controller
 
    public function profile()
    {
-    return response()->api(auth()->user(), 200, 'ok', 'Successfully get profile');
+    return response()->api(auth()->user()->load('customer'), 200, 'ok', 'Successfully get profile');
    }
 
    public function updateProfile(UpdateProfileRequest $request)
@@ -64,9 +66,17 @@ class AuthController extends Controller
     \DB::beginTransaction();
     try {
         $user = auth()->user();
+        $customerData = Arr::pull($data, 'customer');
+        $customer = Customer::where('user_id', '=', $user->id)->first();
+        if(!$customer) {
+            Customer::create([...$customerData, 'user_id' => $user->id]);
+        } else {
+            $customer->update($customerData);
+        }
+
         $user->update($data);
         \DB::commit();
-        return response()->api($user, 200, 'ok', 'Successfully update profile');
+        return response()->api($user->load('customer'), 200, 'ok', 'Successfully update profile');
     }catch(\Exception $e) {
         \DB::rollback();
         return response()->api([], 400, 'error', 'Failed to update profile');

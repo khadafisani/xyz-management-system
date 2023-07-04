@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -44,4 +45,9 @@ class User extends Authenticatable
     ];
 
     protected $attributes = ['is_admin' => false];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

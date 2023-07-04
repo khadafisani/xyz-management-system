@@ -15,6 +15,10 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'customer.address' => 'required|string',
+            'customer.subdistrict' => 'required|string',
+            'customer.city' => 'required|string',
+            'customer.province' => 'required|string',
         ];
     }
 }
